@@ -7,12 +7,19 @@ import com.byteandbolt.byteAndBolt.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
 
     public UserResponseDTO createUser(UserRegisterDTO userDTO) {
+        //Check if the user email already exist
+        List<UserEntity> existingUsers = userRepository.findByEmail(userDTO.getEmail());
+        if(!existingUsers.isEmpty()){
+            throw new RuntimeException("User with email " + userDTO.getEmail() + " already exists");
+        }
         UserEntity userEntity = new UserEntity();
         userEntity.setName(userDTO.getName());
         userEntity.setEmail(userDTO.getEmail());
