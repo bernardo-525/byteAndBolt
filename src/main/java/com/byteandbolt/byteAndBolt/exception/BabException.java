@@ -7,4 +7,7 @@ public class BabException extends RuntimeException {
         super();
         this.errorMessage = errorMessage;
     }
+    public BabErrorMessage getErrorMessage() {
+        return errorMessage;
+    }
 }
