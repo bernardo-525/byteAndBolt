@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class BabGlobalExceptionHandler {
     @ExceptionHandler(BabException.class)
     public ResponseEntity<BabErrorDTO> handleException(BabException exception) {
-        BabErrorMessage error = exception.getErrorMessage();
         final BabErrorMessage errorMessage = exception.getErrorMessage();
         final HttpStatus status = BabErrorMessage.getHttpStatus(errorMessage);
         BabErrorDTO body = new BabErrorDTO(errorMessage, errorMessage.getMessage());

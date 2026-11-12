@@ -3,6 +3,8 @@ package com.byteandbolt.byteAndBolt.service;
 import com.byteandbolt.byteAndBolt.DTOs.UserRegisterDTO;
 import com.byteandbolt.byteAndBolt.DTOs.UserResponseDTO;
 import com.byteandbolt.byteAndBolt.entity.UserEntity;
+import com.byteandbolt.byteAndBolt.exception.BabErrorMessage;
+import com.byteandbolt.byteAndBolt.exception.BabException;
 import com.byteandbolt.byteAndBolt.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +18,10 @@ public class UserService {
 
     public UserResponseDTO createUser(UserRegisterDTO userDTO) {
         //Check if the user email already exist
+        System.out.println(userDTO.getEmail());
         List<UserEntity> existingUsers = userRepository.findByEmail(userDTO.getEmail());
         if(!existingUsers.isEmpty()){
-            throw new RuntimeException("User with email " + userDTO.getEmail() + " already exists");
+            throw new BabException(BabErrorMessage.EMAIL_ALREADY_EXISTS);
         }
         UserEntity userEntity = new UserEntity();
         userEntity.setName(userDTO.getName());
